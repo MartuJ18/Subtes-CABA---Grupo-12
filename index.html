@@ -7,32 +7,54 @@
     <link rel="stylesheet" href="estilo/style.css">
 </head>
 <body>
+    <div class="background-map">
+        <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+            <path d="M150 50 L300 200 L500 200 L600 300 L850 550" stroke="#FF0000" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <line x1="50" y1="400" x2="950" y2="400" stroke="#008000" stroke-width="12" stroke-linecap="round"/>
+            <path d="M80 650 L180 550 L850 550 L950 550" stroke="#00B4D8" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <path d="M800 50 L800 650 L750 700" stroke="#800080" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <path d="M350 700 L700 700 L800 850" stroke="#FFD700" stroke-width="12" fill="none" stroke-linecap="round"/>
+
+            <circle cx="300" cy="200" r="8" fill="#fff"/>
+            <circle cx="500" cy="200" r="8" fill="#fff"/>
+            <circle cx="600" cy="300" r="8" fill="#fff"/>
+            <circle cx="150" cy="400" r="8" fill="#fff"/>
+            <circle cx="450" cy="400" r="8" fill="#fff"/>
+            <circle cx="800" cy="400" r="10" fill="#fff" stroke="#000" stroke-width="2"/>
+            <circle cx="800" cy="550" r="10" fill="#fff" stroke="#000" stroke-width="2"/>
+        </svg>
+    </div>
+
     <div class="main-container">
-        <div class="hero-background"></div>
+        <nav class="nav">
+            <div class="nav-logo">SUB<span>TE</span> CABA</div>
+            <ul class="nav-links">
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
 
         <main class="hero">
-            <header class="header-center">
-                <div class="nav-logo">Sub<span>te</span> CABA</div>
-                <nav>
-                    <ul class="nav-links">
-                        <li><a href="servicios.html">Servicios</a></li>
-                        <li><a href="contacto.html">Contacto</a></li>
-                    </ul>
-                </nav>
-            </header>
-
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Red de subterráneos</h1>
-                    <h2>Buenos <span>Aires</span></h2>
-                </div>
-
-                <div class="main-actions">
-                    <a href="servicios.html" class="btn btn-primary">Ver Servicios</a>
-                    <a href="contacto.html" class="btn btn-secondary">Contacto</a>
-                </div>
+            <div class="hero-text">
+                <h1 class="title-main">RED DE SUBTER<span class="highlight">RÁNEOS</span></h1>
+                <h2 class="title-main">BUENOS <span class="highlight">AIRES</span></h2>
             </div>
         </main>
+
+        <div class="info-bar">
+            <div class="info-card">
+                <div class="info-label">Líneas activas</div>
+                <div class="info-value">8</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Estaciones</div>
+                <div class="info-value">99</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Km de red</div>
+                <div class="info-value">66</div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
