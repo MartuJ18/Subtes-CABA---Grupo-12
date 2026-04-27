@@ -281,20 +281,96 @@ body {
     transform: scale(1.05);
 }
 
-/* Ajuste responsive para la caja de contacto */
-@media (max-width: 480px) {
-    .contact-box {
-        padding: 40px 20px;
-    }
-    
-    .contact-box h2 {
-        font-size: 24px;
-    }
+/* --- SECCIÓN INTEGRANTES (ESTILO UADE/SUBTE) --- */
 
-    .email-link {
-        font-size: 18px;
-    }
+.integrantes-container .title-main {
+    font-size: 40px; 
+    letter-spacing: 2px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    text-align: center;
 }
+
+.integrantes-grid {
+    display: grid;
+    /* Esto crea 3 columnas en desktop, pero se ajusta solo */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.member-card {
+    background: #111; /* Fondo oscuro */
+    border: 1px solid #222;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-10px);
+    border-color: #FFD700; /* Resalte dorado al pasar el mouse */
+}
+
+.member-image {
+    width: 100%;
+    height: 200px;
+    background-color: #222; /* Por si no hay imagen */
+    overflow: hidden;
+    border-bottom: 3px solid #FFD700; /* Línea divisoria como la de la imagen */
+}
+
+.member-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la foto sin deformarla */
+}
+
+.member-info {
+    padding: 25px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.member-info h3 {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.member-info p {
+    font-family: sans-serif;
+    font-size: 14px;
+    color: #bbb;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex: 1; /* Empuja el botón hacia abajo si el texto es corto */
+}
+
+.member-link {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 13px;
+    text-transform: uppercase;
+    border: 1px solid #FFD700;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.member-link:hover {
+    background: #FFD700;
+    color: #000;
+}
+
 
 /* --- MEDIA QUERIES (RESPONSIVE) --- */
 
@@ -321,4 +397,24 @@ body {
     .title-main { font-size: 32px; }
     .service-card { padding: 40px 20px; }
     .line-badge { width: 50px; height: 50px; font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+    .contact-box {
+        padding: 40px 20px;
+    }
+    
+    .contact-box h2 {
+        font-size: 24px;
+    }
+
+    .email-link {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .integrantes-container .title-main {
+        font-size: 28px;
+    }
 }
