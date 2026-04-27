@@ -301,32 +301,35 @@ body {
 }
 
 .member-card {
-    background: #111; /* Fondo oscuro */
+    max-width: 400px; /* Un poco más ancha para que se lea mejor */
+    margin: 0 auto;
+    background: #111;
     border: 1px solid #222;
     border-radius: 8px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.3s;
 }
 
 .member-card:hover {
     transform: translateY(-10px);
-    border-color: #FFD700; /* Resalte dorado al pasar el mouse */
+    border-color: #FFD700; 
 }
 
 .member-image {
     width: 100%;
-    height: 200px;
-    background-color: #222; /* Por si no hay imagen */
+    /* Definimos una altura fija o proporcional */
+    aspect-ratio: 16 / 9; 
+    background-color: #222;
     overflow: hidden;
-    border-bottom: 3px solid #FFD700; /* Línea divisoria como la de la imagen */
+    border-bottom: 3px solid #FFD700;
 }
 
 .member-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ajusta la foto sin deformarla */
+    object-fit: cover; 
+    object-position: top; 
 }
 
 .member-info {
