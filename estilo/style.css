@@ -63,13 +63,21 @@ body {
     gap: 40px; 
     list-style: none; 
 }
-.nav-links a { 
-    color: #ffffff; 
-    text-decoration: none; 
-    text-transform: uppercase; 
-    font-size: 14px; 
+/* Todos los links de la nav */
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none; /* saca el subrayado default del navegador */
+    text-transform: uppercase;
+    font-size: 14px;
     font-weight: 900;
     transition: color 0.3s;
+    padding-bottom: 8px; /* espacio entre el texto y la línea */
+}
+
+/* Link de la página activa */
+.nav-links a.active {
+    color: #FFD700;
+    border-bottom: 4px solid #FFD700;
 }
 .nav-links a:hover { color: #FFD700; }
 
