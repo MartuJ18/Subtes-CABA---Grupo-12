@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centro de Transporte - Contacto</title>
+    <title>Centro de Transporte - Consulta de viajes</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -26,32 +26,41 @@
                 <a href="index.html" class="nav-logo">SUB<span>TE</span> CABA</a>
                 <ul class="nav-links">
                     <li><a href="index.html">Inicio</a></li>
-                    <li><a href="consulta.html">Consulta de viajes</a></li>
+                    <li><a href="consulta.html" class="active">Consulta de viajes</a></li>
                     <li><a href="servicios.html">Servicios</a></li>
                     <li><a href="mapa.html">Mapa</a></li>
                     <li><a href="index.html#medios">Líneas</a></li>
-                    <li><a href="contacto.html" class="active">Contacto</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
                 </ul>
             </nav>
         </header>
 
-        <div class="contact-container">
-            <div class="contact-box">
-                <div class="contact-icon">✉️</div>
-                <h1>Atención al <span>Usuario</span></h1>
-                <p class="contact-text">
-                    Ante cualquier inconveniente, reclamo o consulta sobre el estado de la red y nuestros servicios,
-                    podés contactarnos a través de nuestra vía oficial de comunicación:
-                </p>
-                <div class="email-wrapper">
-                    <a href="mailto:consultas@subtescaba.com.ar" class="email-link">consultas@subtescaba.com.ar</a>
-                </div>
-                <div class="contact-footer">
-                    <p>Horario de atención: Lunes a Viernes de 08:00 a 20:00 hs.</p>
-                </div>
-                <a href="index.html" class="btn-back">Volver al Inicio</a>
+        <main class="consulta-container">
+            <div class="section-head">
+                <h2>Consulta de <span class="highlight">viajes</span></h2>
+                <p>Elegí desde dónde salís y a dónde querés llegar. Te decimos qué línea tomar, por qué andén salir, cuánto tarda y cuánto sale.</p>
             </div>
-        </div>
+
+            <div class="consulta-form">
+                <div class="form-group">
+                    <label for="origen">Estación de origen</label>
+                    <select id="origen">
+                        <option value="">Elegí una estación...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="destino">Estación de destino</label>
+                    <select id="destino">
+                        <option value="">Elegí una estación...</option>
+                    </select>
+                </div>
+                <div class="form-group full">
+                    <button id="btn-buscar" class="btn-primary">Buscar viaje</button>
+                </div>
+            </div>
+
+            <div id="resultado" class="resultado hidden"></div>
+        </main>
 
         <footer class="info-bar">
             <div class="info-card">
@@ -60,9 +69,9 @@
                 <div class="info-sub">Todas las líneas operativas</div>
             </div>
             <div class="info-card">
-                <div class="info-label">Próximo Tren</div>
+                <div class="info-label">Frecuencia</div>
                 <div class="info-value">4 min</div>
-                <div class="info-sub">Frecuencia promedio</div>
+                <div class="info-sub">Promedio en hora pico</div>
             </div>
             <div class="info-card">
                 <div class="info-label">Atención</div>
@@ -72,6 +81,6 @@
         </footer>
     </div>
 
-    <script src="Js/main.js"></script>
+    <script src="Js/consulta.js"></script>
 </body>
 </html>

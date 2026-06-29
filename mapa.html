@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Transporte - Mapa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <link rel="stylesheet" href="estilo/style.css">
+    <style>
+        #map { height: 600px; width: 100%; border-radius: var(--radio); border: 1px solid var(--borde); background: #0b0e14; }
+        .leaflet-container { background: #0b0e14; font-family: var(--font-body); }
+        .est-label {
+            background: rgba(11,14,20,.9); border: 1px solid var(--borde);
+            color: #fff; font-family: var(--font-display); text-transform: uppercase;
+            font-size: 11px; letter-spacing: .5px; padding: 3px 7px; border-radius: 6px; white-space: nowrap;
+        }
+        .est-label::before { display: none; }
+        .leaflet-tooltip.est-hover { background: #141925; border: 1px solid var(--brand); color: #fff; font-family: var(--font-body); }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <nav class="nav">
+                <a href="index.html" class="nav-logo">SUB<span>TE</span> CABA</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="consulta.html">Consulta de viajes</a></li>
+                    <li><a href="servicios.html">Servicios</a></li>
+                    <li><a href="mapa.html" class="active">Mapa</a></li>
+                    <li><a href="index.html#medios">Líneas</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="mapa-container">
+            <div class="section-head">
+                <h2>Mapa de la <span class="highlight">red de subte</span></h2>
+                <p>Red de subterráneos sobre el mapa de la Ciudad de Buenos Aires. Las terminales aparecen con su nombre; pasá el cursor por cualquier estación para verla.</p>
+            </div>
+
+            <div class="mapa-layout">
+                <div id="map"></div>
+
+                <aside class="leyenda">
+                    <h3>Líneas</h3>
+                    <div class="leyenda-item"><span class="leyenda-color" style="background:#00B4D8"></span> A · Plaza de Mayo — San Pedrito</div>
+                    <div class="leyenda-item"><span class="leyenda-color" style="background:#E63946"></span> B · L. N. Alem — J. M. de Rosas</div>
+                    <div class="leyenda-item"><span class="leyenda-color" style="background:#0078C1"></span> C · Retiro — Constitución</div>
+                    <div class="leyenda-item"><span class="leyenda-color" style="background:#2DC653"></span> D · Catedral — C. de Tucumán</div>
+                    <div class="leyenda-item"><span class="leyenda-color" style="background:#6F2B8C"></span> E · Retiro — Pza. de los Virreyes</div>
+                    <div class="leyenda-item"><span class="leyenda-color" style="background:#F5B700"></span> H · Hospitales — Fac. de Derecho</div>
+                    <div class="leyenda-item" style="margin-top:14px"><span class="leyenda-color" style="background:#fff;border-radius:50%"></span> Estación principal / terminal</div>
+                </aside>
+            </div>
+        </main>
+
+        <footer class="info-bar">
+            <div class="info-card">
+                <div class="info-label">Líneas</div>
+                <div class="info-value">6</div>
+                <div class="info-sub">A · B · C · D · E · H</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Estaciones</div>
+                <div class="info-value">90</div>
+                <div class="info-sub">En toda la red</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Datos</div>
+                <div class="info-value">GCBA</div>
+                <div class="info-sub">Buenos Aires Data</div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script>
+        const LINEAS_SUBTE = {"A": {"color": "#00B4D8", "stations": [[-34.608809, -58.370973, "Plaza De Mayo", 1], [-34.608558, -58.374272, "Peru", 0], [-34.608881, -58.379089, "Piedras", 0], [-34.609099, -58.382236, "Lima", 1], [-34.609412, -58.386781, "Saenz Peña", 0], [-34.609225, -58.392672, "Congreso", 1], [-34.609645, -58.39843, "Pasco", 0], [-34.609833, -58.40121, "Alberti", 0], [-34.609816, -58.40671, "Plaza De Miserere", 1], [-34.610781, -58.415188, "Loria", 0], [-34.611769, -58.421818, "Castro Barros", 0], [-34.615205, -58.429502, "Rio De Janeiro", 0], [-34.618279, -58.43643, "Acoyte", 0], [-34.620404, -58.441179, "Primera Junta", 1], [-34.623528, -58.448648, "Puan", 0], [-34.626666, -58.45671, "Carabobo", 0], [-34.629086, -58.463541, "San José De Flores", 0], [-34.630706, -58.46964, "San Pedrito", 1]]}, "B": {"color": "#E63946", "stations": [[-34.602989, -58.369934, "Leandro N. Alem", 1], [-34.603296, -58.375076, "Florida", 0], [-34.603636, -58.380719, "C. Pellegrini", 1], [-34.604093, -58.3873, "Uruguay", 0], [-34.604419, -58.392318, "Callao", 1], [-34.604642, -58.399477, "Pasteur", 0], [-34.60458, -58.405402, "Pueyrredon", 1], [-34.604079, -58.411765, "Carlos Gardel", 0], [-34.603164, -58.420965, "Almagro", 0], [-34.602162, -58.431276, "Angel Gallardo", 0], [-34.598967, -58.439773, "Malabia", 0], [-34.591718, -58.447574, "Dorrego", 0], [-34.587198, -58.45503, "Federico Lacroze", 1], [-34.584095, -58.466228, "Tronador", 0], [-34.581249, -58.474241, "De Los Incas", 0], [-34.577798, -58.481013, "Echeverría", 0], [-34.574319, -58.486385, "Juan Manuel De Rosas", 1]]}, "C": {"color": "#0078C1", "stations": [[-34.591193, -58.374022, "Retiro", 1], [-34.595057, -58.377823, "San Martin", 0], [-34.601769, -58.37816, "Lavalle", 0], [-34.604843, -58.379534, "Diagonal Norte", 1], [-34.608982, -58.380615, "Av. De Mayo", 1], [-34.612616, -58.380448, "Moreno", 0], [-34.618124, -58.380177, "Independencia", 1], [-34.621915, -58.379925, "San Juan", 0], [-34.627618, -58.381438, "Constitucion", 1]]}, "D": {"color": "#2DC653", "stations": [[-34.607801, -58.37396, "Catedral", 1], [-34.604244, -58.380578, "9 De Julio", 1], [-34.601586, -58.385146, "Tribunales", 0], [-34.599639, -58.393129, "Callao", 1], [-34.599756, -58.397927, "Facultad De Medicina", 0], [-34.594425, -58.402398, "Pueyrredon", 1], [-34.591627, -58.407164, "Agüero", 0], [-34.588237, -58.411297, "Bulnes", 0], [-34.585156, -58.415958, "R.Scalabrini Ortiz", 0], [-34.581411, -58.421198, "Plaza Italia", 1], [-34.578422, -58.425714, "Palermo", 0], [-34.575178, -58.435015, "Ministro Carranza", 0], [-34.570013, -58.44467, "Olleros", 0], [-34.566216, -58.452127, "Jose Hernandez", 0], [-34.56231, -58.45649, "Juramento", 0], [-34.555642, -58.462379, "Congreso De Tucuman", 1]]}, "E": {"color": "#6F2B8C", "stations": [[-34.592177, -58.375725, "Retiro", 1], [-34.596623, -58.371669, "Catalinas", 0], [-34.603111, -58.370561, "Correo Central", 0], [-34.609241, -58.373688, "Bolivar", 1], [-34.612848, -58.377585, "Belgrano", 0], [-34.617936, -58.381539, "Independencia", 1], [-34.622338, -58.385152, "San Jose", 0], [-34.622718, -58.391515, "Entre Rios", 0], [-34.623109, -58.397071, "Pichincha", 0], [-34.623865, -58.402939, "Jujuy", 0], [-34.624653, -58.409393, "Urquiza", 0], [-34.625365, -58.415535, "Boedo", 0], [-34.627014, -58.426791, "Av. La Plata", 0], [-34.628016, -58.433818, "Jose Maria Moreno", 0], [-34.631041, -58.442172, "Emilio Mitre", 0], [-34.636388, -58.450279, "Medalla Milagrosa", 0], [-34.640136, -58.457892, "Varela", 0], [-34.643311, -58.461652, "Plaza De Los Virreyes", 1]]}, "H": {"color": "#F5B700", "stations": [[-34.641267, -58.412387, "Hospitales", 1], [-34.638404, -58.405797, "Parque Patricios", 0], [-34.635749, -58.39893, "Caseros", 0], [-34.629374, -58.400972, "Inclan", 0], [-34.623091, -58.402325, "Humberto 1°", 0], [-34.615241, -58.404734, "Venezuela", 0], [-34.608934, -58.406039, "Once", 1], [-34.604489, -58.405453, "Corrientes", 1], [-34.598454, -58.403724, "Córdoba", 0], [-34.594385, -58.402326, "Santa Fe", 1], [-34.587461, -58.397219, "Las Heras", 1], [-34.583036, -58.391022, "Facultad De Derecho", 1]]}};
+
+        const map = L.map('map', { scrollWheelZoom: false }).setView([-34.6083, -58.4173], 12);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19
+        }).addTo(map);
+
+        try {
+            const todos = [];
+            Object.keys(LINEAS_SUBTE).forEach(function (ln) {
+                const linea = LINEAS_SUBTE[ln];
+                const coords = linea.stations.map(function (s) { return [s[0], s[1]]; });
+                L.polyline(coords, { color: linea.color, weight: 5, opacity: 0.9 }).addTo(map);
+
+                linea.stations.forEach(function (s, i) {
+                    const esTerminal = (i === 0 || i === linea.stations.length - 1);
+                    const principal = s[3];
+                    todos.push([s[0], s[1]]);
+                    const radio = esTerminal ? 7 : (principal ? 5.5 : 3.5);
+                    const m = L.circleMarker([s[0], s[1]], {
+                        radius: radio, color: '#ffffff',
+                        weight: esTerminal ? 2.5 : (principal ? 2 : 1),
+                        fillColor: linea.color, fillOpacity: 1
+                    }).addTo(map);
+                    if (esTerminal) {
+                        m.bindTooltip(s[2] + ' (' + ln + ')', { permanent: true, direction: 'top', className: 'est-label', offset: [0, -6] });
+                    } else {
+                        m.bindTooltip(s[2] + ' · Línea ' + ln, { className: 'est-hover', direction: 'top' });
+                    }
+                });
+            });
+            if (todos.length) map.fitBounds(todos, { padding: [30, 30] });
+        } catch (e) { console.error('Error dibujando la red:', e); }
+
+        setTimeout(function () { map.invalidateSize(); }, 300);
+    </script>
+</body>
+</html>

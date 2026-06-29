@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subte CABA - Inicio</title>
+    <title>Centro de Transporte Subte CABA - Inicio</title>
+
+    <!-- Tipografías compartidas del sistema (Oswald + Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="estilo/style.css">
 </head>
 <body>
     <div class="background-map">
         <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
-            <path d="M150 50 L300 200 L500 200 L600 300 L850 550" stroke="#FF0000" stroke-width="12" fill="none" stroke-linecap="round"/>
-            <line x1="50" y1="400" x2="950" y2="400" stroke="#008000" stroke-width="12" stroke-linecap="round"/>
+            <path d="M150 50 L300 200 L500 200 L600 300 L850 550" stroke="#E63946" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <line x1="50" y1="400" x2="950" y2="400" stroke="#2DC653" stroke-width="12" stroke-linecap="round"/>
             <path d="M80 650 L180 550 L850 550 L950 550" stroke="#00B4D8" stroke-width="12" fill="none" stroke-linecap="round"/>
-            <path d="M800 50 L800 650 L750 700" stroke="#800080" stroke-width="12" fill="none" stroke-linecap="round"/>
-            <path d="M350 700 L700 700 L800 850" stroke="#FFD700" stroke-width="12" fill="none" stroke-linecap="round"/>
-
+            <path d="M800 50 L800 650 L750 700" stroke="#6F2B8C" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <path d="M350 700 L700 700 L800 850" stroke="#F5B700" stroke-width="12" fill="none" stroke-linecap="round"/>
             <circle cx="300" cy="200" r="8" fill="#fff"/>
             <circle cx="500" cy="200" r="8" fill="#fff"/>
             <circle cx="600" cy="300" r="8" fill="#fff"/>
@@ -31,7 +36,10 @@
                 <a href="index.html" class="nav-logo">SUB<span>TE</span> CABA</a>
                 <ul class="nav-links">
                     <li><a href="index.html" class="active">Inicio</a></li>
+                    <li><a href="consulta.html">Consulta de viajes</a></li>
                     <li><a href="servicios.html">Servicios</a></li>
+                    <li><a href="mapa.html">Mapa</a></li>
+                    <li><a href="#medios">Líneas</a></li>
                     <li><a href="contacto.html">Contacto</a></li>
                 </ul>
             </nav>
@@ -40,8 +48,67 @@
         <main>
             <section class="hero">
                 <div class="hero-text">
-                    <h1 class="title-main">RED DE SUBTER<span class="highlight">RÁNEOS</span></h1>
+                    <h1>CENTRO DE TRANSPORTE</h1>
+                    <h2 class="title-main">RED DE SUBTER<span class="highlight">RÁNEOS</span></h2>
                     <h2 class="title-main">BUENOS <span class="highlight">AIRES</span></h2>
+                    <p class="hero-sub">
+                        Tu punto de partida para moverte por la ciudad. Consultá cómo llegar a tu destino,
+                        conocé los servicios de la terminal y accedé a la información de cada línea.
+                    </p>
+                    <div style="margin-top:28px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+                        <a href="consulta.html" class="btn-primary">Consultar viaje</a>
+                        <a href="mapa.html" class="btn-ghost">Ver mapa de la terminal</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MEDIOS DE TRANSPORTE: enlaces a las páginas de cada integrante -->
+            <section class="medios-section" id="medios">
+                <div class="section-head">
+                    <h2>Medios de <span class="highlight">transporte</span></h2>
+                    <p>Cada línea fue desarrollada por una integrante del grupo. Entrá al sitio de cada una.</p>
+                </div>
+
+                <div class="medios-grid">
+
+                    <a href="https://chiaraarcodia.github.io/proyectosubteA/index.html" class="medio-card" target="_blank" rel="noopener">
+                        <div class="medio-badges">
+                            <span class="medio-badge" style="background:var(--linea-a)">A</span>
+                        </div>
+                        <h3>Línea A</h3>
+                        <p>Plaza de Mayo — San Pedrito. La línea más antigua de la red, a cargo de Chiara Arcodia.</p>
+                        <span class="medio-link">Ver sitio →</span>
+                    </a>
+
+                    <a href="https://mncb1.github.io/SUBTESHB/" class="medio-card" target="_blank" rel="noopener">
+                        <div class="medio-badges">
+                            <span class="medio-badge" style="background:var(--linea-b)">B</span>
+                            <span class="medio-badge" style="background:var(--linea-h); color:var(--brand-ink)">H</span>
+                        </div>
+                        <h3>Líneas B y H</h3>
+                        <p>Leandro N. Alem — J.M. de Rosas y Hospitales — Facultad de Derecho, a cargo de Michelle Cabanas.</p>
+                        <span class="medio-link">Ver sitio →</span>
+                    </a>
+
+                    <a href="https://martuj18.github.io/Lineas-C-y-E-Subtes-CABA/" class="medio-card" target="_blank" rel="noopener">
+                        <div class="medio-badges">
+                            <span class="medio-badge" style="background:var(--linea-c)">C</span>
+                            <span class="medio-badge" style="background:var(--linea-e)">E</span>
+                        </div>
+                        <h3>Líneas C y E</h3>
+                        <p>Retiro — Constitución y Retiro — Plaza de los Virreyes, a cargo de Martina Juárez.</p>
+                        <span class="medio-link">Ver sitio →</span>
+                    </a>
+
+                    <a href="https://anabellabrunelli.github.io/subte/" class="medio-card" target="_blank" rel="noopener">
+                        <div class="medio-badges">
+                            <span class="medio-badge" style="background:var(--linea-d)">D</span>
+                        </div>
+                        <h3>Línea D</h3>
+                        <p>Catedral — Congreso de Tucumán. Una de las líneas más transitadas, a cargo de Anabella Brunelli.</p>
+                        <span class="medio-link">Ver sitio →</span>
+                    </a>
+
                 </div>
             </section>
         </main>
@@ -49,18 +116,22 @@
         <footer class="info-bar">
             <div class="info-card">
                 <div class="info-label">Líneas activas</div>
-                <div class="info-value">8</div>
+                <div class="info-value">6</div>
+                <div class="info-sub">A · B · C · D · E · H</div>
             </div>
             <div class="info-card">
                 <div class="info-label">Estaciones</div>
                 <div class="info-value">99</div>
+                <div class="info-sub">En toda la red</div>
             </div>
             <div class="info-card">
                 <div class="info-label">Km de red</div>
                 <div class="info-value">66</div>
+                <div class="info-sub">Cobertura CABA</div>
             </div>
         </footer>
     </div>
-    <script src="js/main.js"></script>
+
+    <script src="Js/main.js"></script>
 </body>
 </html>
