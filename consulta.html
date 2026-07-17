@@ -38,23 +38,23 @@
             </nav>
         </header>
 
-        <main class="consulta-container">
-            <div class="section-head">
-                <h2>Consulta de <span class="highlight">viajes</span></h2>
-                <p>Elegí desde dónde salís y a dónde querés llegar. Te decimos qué línea tomar, por qué andén salir, cuánto tarda y cuánto sale.</p>
-            </div>
-
             <div class="consulta-form">
+                <div class="form-group full">
+                    <label for="linea">Línea de subte</label>
+                    <select id="linea">
+                        <option value="">Elegí una línea...</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="origen">Estación de origen</label>
-                    <select id="origen">
-                        <option value="">Elegí una estación...</option>
+                    <select id="origen" disabled>
+                        <option value="">Elegí primero una línea...</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="destino">Estación de destino</label>
-                    <select id="destino">
-                        <option value="">Elegí una estación...</option>
+                    <select id="destino" disabled>
+                        <option value="">Elegí primero una línea...</option>
                     </select>
                 </div>
                 <div class="form-group full">
@@ -64,6 +64,7 @@
 
             <div id="resultado" class="resultado hidden"></div>
         </main>
+
 
         <footer class="info-bar">
             <div class="info-card">
@@ -84,6 +85,6 @@
         </footer>
     </div>
 
-    <script src="Js/consulta.js"></script>
+    <script src="consulta.js"></script>
 </body>
 </html>

@@ -7,7 +7,6 @@
 /* --- Parámetros simulados --- */
 const TARIFA_BASE = 757;        // Tarifa simulada por viaje (SUBE)
 const MIN_POR_ESTACION = 2.2;   // Minutos simulados entre estaciones
-const PENAL_TRANSBORDO = 6;     // Minutos extra simulados por combinación
 
 /* --- Terminales de cada línea (para indicar sentido/andén) --- */
 const TERMINALES = {
@@ -46,17 +45,6 @@ const ESTACIONES = [
     { n: "Venezuela", l: "H" }, { n: "Caseros", l: "H" }, { n: "Hospitales", l: "H" }
 ];
 
-/* --- Combinaciones simuladas entre líneas (estación de transbordo) --- */
-const COMBINACIONES = {
-    "A-C": "Lima / Avenida de Mayo", "A-D": "Perú / Catedral", "A-E": "Plaza de Mayo / Bolívar",
-    "A-B": "Lima / Carlos Pellegrini", "A-H": "Congreso / Once",
-    "B-C": "Carlos Pellegrini / Diagonal Norte", "B-D": "Carlos Pellegrini / 9 de Julio",
-    "B-H": "Callao / Once", "B-E": "Federico Lacroze / Bolívar",
-    "C-D": "Diagonal Norte / 9 de Julio", "C-E": "Independencia (C) / Independencia (E)",
-    "C-H": "San Juan / Caseros", "D-E": "Catedral / Bolívar", "D-H": "Pueyrredón (D) / Las Heras",
-    "E-H": "Jujuy / Once"
-};
-
 /* --- Utilidades --- */
 function indiceEnLinea(estacion) {
     const deLaLinea = ESTACIONES.filter(e => e.l === estacion.l);
@@ -68,69 +56,75 @@ function sentido(linea, idxOrigen, idxDestino) {
     return idxDestino > idxOrigen ? t[1] : t[0];
 }
 
-function buscarCombinacion(lo, ld) {
-    return COMBINACIONES[`${lo}-${ld}`] || COMBINACIONES[`${ld}-${lo}`] || "según cartelería en la estación";
+/* --- Poblar el <select> de líneas --- */
+function poblarLineas() {
+    const selLinea = document.getElementById("linea");
+    if (!selLinea) return;
+
+    Object.keys(TERMINALES).forEach(l => {
+        selLinea.add(new Option(`Línea ${l}`, l));
+    });
 }
 
-/* --- Poblar los <select> --- */
-function poblarSelects() {
+/* --- Poblar los <select> de origen/destino según la línea elegida --- */
+function poblarEstaciones(linea) {
     const selOrigen = document.getElementById("origen");
     const selDestino = document.getElementById("destino");
     if (!selOrigen || !selDestino) return;
 
-    ESTACIONES.forEach(e => {
-        const texto = `${e.n}  (Línea ${e.l})`;
-        selOrigen.add(new Option(texto, e.n + "|" + e.l));
-        selDestino.add(new Option(texto, e.n + "|" + e.l));
+    selOrigen.innerHTML = "";
+    selDestino.innerHTML = "";
+
+    if (!linea) {
+        selOrigen.add(new Option("Elegí primero una línea...", ""));
+        selDestino.add(new Option("Elegí primero una línea...", ""));
+        selOrigen.disabled = true;
+        selDestino.disabled = true;
+        return;
+    }
+
+    selOrigen.add(new Option("Elegí una estación...", ""));
+    selDestino.add(new Option("Elegí una estación...", ""));
+
+    ESTACIONES.filter(e => e.l === linea).forEach(e => {
+        selOrigen.add(new Option(e.n, e.n));
+        selDestino.add(new Option(e.n, e.n));
     });
+
+    selOrigen.disabled = false;
+    selDestino.disabled = false;
 }
 
 /* --- Calcular y mostrar el resultado --- */
 function calcularViaje() {
+    const selLinea = document.getElementById("linea");
     const selOrigen = document.getElementById("origen");
     const selDestino = document.getElementById("destino");
     const cont = document.getElementById("resultado");
 
-    if (!selOrigen.value || !selDestino.value) {
+    if (!selLinea.value || !selOrigen.value || !selDestino.value) {
         cont.classList.remove("hidden");
-        cont.innerHTML = `<p class="error-msg">Elegí una estación de origen y una de destino.</p>`;
+        cont.innerHTML = `<p class="error-msg">Elegí una línea, una estación de origen y una de destino.</p>`;
         return;
     }
 
-    const [nOrigen, lOrigen] = selOrigen.value.split("|");
-    const [nDestino, lDestino] = selDestino.value.split("|");
-
-    if (nOrigen === nDestino) {
+    if (selOrigen.value === selDestino.value) {
         cont.classList.remove("hidden");
         cont.innerHTML = `<p class="error-msg">El origen y el destino son la misma estación. Elegí destinos distintos.</p>`;
         return;
     }
 
-    const origen = { n: nOrigen, l: lOrigen };
-    const destino = { n: nDestino, l: lDestino };
-    const idxO = indiceEnLinea(origen);
+    const linea = selLinea.value;
+    const nOrigen = selOrigen.value;
+    const nDestino = selDestino.value;
 
-    let transporte, anden, combinacion, tiempo, tramos;
+    const idxO = indiceEnLinea({ n: nOrigen, l: linea });
+    const idxD = indiceEnLinea({ n: nDestino, l: linea });
 
-    if (lOrigen === lDestino) {
-        /* Mismo recorrido: viaje directo */
-        const idxD = indiceEnLinea(destino);
-        tramos = Math.abs(idxD - idxO);
-        tiempo = Math.round(tramos * MIN_POR_ESTACION + 2);
-        transporte = `Línea ${lOrigen} (directo)`;
-        anden = `Andén Línea ${lOrigen} — sentido ${sentido(lOrigen, idxO, idxD)}`;
-        combinacion = "No requiere combinación";
-    } else {
-        /* Distinta línea: combinación simulada */
-        const idxDestEnSuLinea = indiceEnLinea(destino);
-        const estTransbordo = Math.ceil(ESTACIONES.filter(e => e.l === lOrigen).length / 2);
-        tramos = estTransbordo + idxDestEnSuLinea + 1;
-        tiempo = Math.round(tramos * MIN_POR_ESTACION + PENAL_TRANSBORDO);
-        transporte = `Línea ${lOrigen} + Línea ${lDestino}`;
-        anden = `Andén Línea ${lOrigen} — hacia la combinación`;
-        combinacion = "Combiná en: " + buscarCombinacion(lOrigen, lDestino);
-    }
-
+    const tramos = Math.abs(idxD - idxO);
+    const tiempo = Math.round(tramos * MIN_POR_ESTACION + 2);
+    const transporte = `Línea ${linea} (directo)`;
+    const anden = `Andén Línea ${linea} — sentido ${sentido(linea, idxO, idxD)}`;
     const costo = TARIFA_BASE; // tarifa plana simulada
 
     cont.classList.remove("hidden");
@@ -142,7 +136,7 @@ function calcularViaje() {
             <div class="dato-card">
                 <div class="dato-label">Transporte recomendado</div>
                 <div class="dato-valor">${transporte}</div>
-                <div class="dato-extra">${combinacion}</div>
+                <div class="dato-extra">No requiere combinación</div>
             </div>
             <div class="dato-card">
                 <div class="dato-label">Andén / sector de salida</div>
@@ -160,14 +154,25 @@ function calcularViaje() {
             </div>
         </div>
 
-        <p class="resultado-aviso">* Datos simulados con fines académicos. Tiempos, andenes y tarifas son aproximados.</p>
+        <p class="resultado-aviso">* Datos simulados con fines académicos. Tiempos y tarifas son aproximados.</p>
     `;
     cont.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 /* --- Inicio --- */
 window.addEventListener("DOMContentLoaded", () => {
-    poblarSelects();
+    poblarLineas();
+    poblarEstaciones("");
+
+    const selLinea = document.getElementById("linea");
+    if (selLinea) {
+        selLinea.addEventListener("change", () => {
+            poblarEstaciones(selLinea.value);
+            const cont = document.getElementById("resultado");
+            if (cont) cont.classList.add("hidden");
+        });
+    }
+
     const boton = document.getElementById("btn-buscar");
     if (boton) boton.addEventListener("click", calcularViaje);
 });
